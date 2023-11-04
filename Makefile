@@ -16,11 +16,15 @@
 # get overridden by architecture-specific builds)
 CC = gcc -D_FILE_OFFSET_BITS=64
 WARN_FLAGS = -Wall -W
-OPT_FLAGS = -O3 -fomit-frame-pointer -march=athlon-xp -DNDEBUG
+OPT_FLAGS = -O3 -fomit-frame-pointer -march=native -DNDEBUG
 #OPT_FLAGS = -O3 -fomit-frame-pointer -march=k8 -DNDEBUG
 
+DEFAULT_L1_CACHE_SIZE ?= $(shell ./darwin-cache-size.sh)
+
 CFLAGS = $(OPT_FLAGS) $(MACHINE_FLAGS) $(WARN_FLAGS) \
-		-I. -Iinclude -Ignfs -Ignfs/poly -Ignfs/poly/stage1
+		-I. -Iinclude -Ignfs -Ignfs/poly -Ignfs/poly/stage1 \
+		-DDEFAULT_L1_CACHE_SIZE=$(DEFAULT_L1_CACHE_SIZE)
+
 
 # tweak the compile flags
 
@@ -128,7 +132,8 @@ QS_OBJS = \
 
 QS_CORE_OBJS = \
 	mpqs/sieve_core_generic_32k.qo \
-	mpqs/sieve_core_generic_64k.qo
+	mpqs/sieve_core_generic_64k.qo \
+	mpqs/sieve_core_generic_128k.qo
 
 QS_CORE_OBJS_X86 = \
 	mpqs/sieve_core_p2_64k.qo \
@@ -307,6 +312,11 @@ mpqs/sieve_core_generic_32k.qo: mpqs/sieve_core.c $(COMMON_HDR) $(QS_HDR)
 mpqs/sieve_core_generic_64k.qo: mpqs/sieve_core.c $(COMMON_HDR) $(QS_HDR)
 	$(CC) $(CFLAGS) -DBLOCK_KB=64 -DCPU_GENERIC \
 		-DROUTINE_NAME=qs_core_sieve_generic_64k \
+		-c -o $@ mpqs/sieve_core.c
+
+mpqs/sieve_core_generic_128k.qo: mpqs/sieve_core.c $(COMMON_HDR) $(QS_HDR)
+	$(CC) $(CFLAGS) -DBLOCK_KB=128 -DCPU_GENERIC \
+		-DROUTINE_NAME=qs_core_sieve_generic_128k \
 		-c -o $@ mpqs/sieve_core.c
 
 mpqs/sieve_core_p2_64k.qo: mpqs/sieve_core.c $(COMMON_HDR) $(QS_HDR)

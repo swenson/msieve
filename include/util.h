@@ -37,6 +37,11 @@ $Id$
 
 #endif
 
+#ifdef __APPLE__
+    #include <sys/time.h>
+#endif
+
+
 /* system-independent header files ------------------------------------*/
 
 #include <stdio.h>

@@ -119,7 +119,9 @@ void set_idle_priority(void) {
 
 /*--------------------------------------------------------------------*/
 /* safe default values */
+#ifndef DEFAULT_L1_CACHE_SIZE
 #define DEFAULT_L1_CACHE_SIZE (32 * 1024)
+#endif
 #define DEFAULT_L2_CACHE_SIZE (512 * 1024)
 
 /* macro to execute the x86 CPUID instruction. Note that

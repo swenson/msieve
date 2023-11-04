@@ -86,7 +86,9 @@ void do_sieving(msieve_obj *obj, mp_t *n,
 
 	if (obj->cache_size1 == 32768)
 		conf.sieve_block_size = sieve_block_size = 32768;
-	else 
+	else if (obj->cache_size1 == 131072)
+		conf.sieve_block_size = sieve_block_size = 131072;
+	else
 		conf.sieve_block_size = sieve_block_size = 65536;
 	conf.sieve_array = (uint8 *)aligned_malloc(
 					(size_t)sieve_block_size, 64);

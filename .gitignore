@@ -1,0 +1,7 @@
+*.qo
+*.no
+msieve
+msieve.dat
+msieve.log
+libmsieve.a
+*.o

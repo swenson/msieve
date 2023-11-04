@@ -21,6 +21,9 @@ $Id$
 #elif BLOCK_KB == 64
 #define SIEVE_BLOCK_SIZE 65536
 #define LOG2_SIEVE_BLOCK_SIZE 16
+#elif BLOCK_KB == 128
+#define SIEVE_BLOCK_SIZE 131072
+#define LOG2_SIEVE_BLOCK_SIZE 17
 #else
 #error "unsupported sieve block size"
 #endif
